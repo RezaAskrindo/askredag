@@ -1,27 +1,8 @@
 "use client"
 
 import * as React from "react"
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-react"
 
-import { NavDocuments } from "@/components/nav-documents"
 import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -33,124 +14,54 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 
-const data = {
-  user: {
-    name: "Muhammad Reza",
-    email: "muhammadreza@askrindo.co.id",
-    avatar: "/1386.jpg",
-  },
-  navMain: [
-    {
-      title: "Dashboard",
+import { useSession } from "next-auth/react";
+import { BookOpen } from "lucide-react";
+import { useCMSStore } from "@/stores/cms-store-provider"
+import { groupArrayByKey } from "@/lib/groupByKey"
+import { CMSItem } from "@/stores/cms-store"
+
+const user = {
+  name: "Muhammad Reza",
+  email: "muhammadreza@askrindo.co.id",
+  avatar: "/1386.jpg",
+};
+
+function DataNavMainMap(DataCMSDashboard: CMSItem[]) {
+  const groupNav = groupArrayByKey(DataCMSDashboard, "role");
+  
+  const groupNavRes = Object.keys(groupNav).map((key) => {
+    const filterNav = DataCMSDashboard.filter((item) => item.role === key);
+    const groupSubNav = groupArrayByKey(filterNav, "page");
+    const items = Object.keys(groupSubNav).map((subKey) => {
+      const subItems = groupSubNav[subKey];
+      return{
+        title: subKey,
+        url: `/dashboard?page=${subKey}&type_page=${subItems[0].type_page}&role=${subItems[0].role}`,
+      }}
+    );
+    return {
+      title: key,
       url: "#",
-      icon: IconDashboard,
-    },
-    {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
-    },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileWord,
-    },
-  ],
+      icon: BookOpen,
+      items: items,
+    }
+  });
+
+  return groupNavRes;
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session } = useSession();
+
+  const {
+    items,
+  } = useCMSStore((state) => state)
+
+  const navMainCms = React.useMemo(
+    () => DataNavMainMap(items),
+    [items]
+  );
+  
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -161,7 +72,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <a href="#">
-                <IconInnerShadowTop className="!size-5" />
                 <span className="text-base font-semibold">PT ASKRINDO</span>
               </a>
             </SidebarMenuButton>
@@ -169,12 +79,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavMain items={navMainCms} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        { session && <NavUser user={{
+          name: session.user?.name || user.name,
+          email: session.user?.email || user.email,
+          avatar: session.user?.image || user.avatar,
+        }} /> }
       </SidebarFooter>
     </Sidebar>
   )
