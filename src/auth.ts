@@ -8,9 +8,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   // debug: true,
   secret: "IIC/cJNhqiPvLHEOzUs3C66+p1Tf/bFmQ8eboaPH4SI=",
   providers: [
-    Google({ 
-      // clientId: "312134406993-gohg72bsuqlinaghh7d2gsv234pdi2d8.apps.googleusercontent.com", 
-      // clientSecret: "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",
+    Google({
       clientId: process.env.GOOGLE_CLIENT_ID!, 
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
@@ -91,8 +89,8 @@ async jwt({ token, account }) {
       const response = await fetch("https://oauth2.googleapis.com/token", {
         method: "POST",
         body: new URLSearchParams({
-          client_id: process.env.AUTH_GOOGLE_ID!,
-          client_secret: process.env.AUTH_GOOGLE_SECRET!,
+          client_id: process.env.GOOGLE_CLIENT_ID!,
+          client_secret: process.env.GOOGLE_CLIENT_SECRET!,
           grant_type: "refresh_token",
           refresh_token: token.refresh_token!,
         }),
