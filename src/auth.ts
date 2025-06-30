@@ -9,8 +9,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: "IIC/cJNhqiPvLHEOzUs3C66+p1Tf/bFmQ8eboaPH4SI=",
   providers: [
     Google({ 
-      clientId: "312134406993-gohg72bsuqlinaghh7d2gsv234pdi2d8.apps.googleusercontent.com", 
-      clientSecret: "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",
+      // clientId: "312134406993-gohg72bsuqlinaghh7d2gsv234pdi2d8.apps.googleusercontent.com", 
+      // clientSecret: "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",
+      clientId: process.env.GOOGLE_CLIENT_ID!, 
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
           // prompt: "none",
