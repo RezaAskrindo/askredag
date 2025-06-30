@@ -6,7 +6,7 @@ import Credentials from "next-auth/providers/credentials"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   // debug: true,
-  secret: "IIC/cJNhqiPvLHEOzUs3C66+p1Tf/bFmQ8eboaPH4SI=",
+  // secret: "IIC/cJNhqiPvLHEOzUs3C66+p1Tf/bFmQ8eboaPH4SI=",
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!, 
