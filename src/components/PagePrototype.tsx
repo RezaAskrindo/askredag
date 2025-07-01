@@ -1,41 +1,27 @@
 "use client"
 
 import { useCMSStore } from "@/stores/cms-store-provider"
-import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { useSWRCMSData } from "@/stores/useSWRCMSData"
 
 import PageDashboard from "./PageDashboard"
 import PageRegister from "./PageRegister"
 
 const PagePrototype: React.FC = () => {
-  const {
-    items,
-    setItems
-  } = useCMSStore((state) => state)
+  useSWRCMSData()
+
+  const items = useCMSStore((state) => state.items)
 
   const searchParams = useSearchParams()
   const type_page = searchParams.get('type_page')
   const page = searchParams.get('page')
   const role = searchParams.get('role')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await fetch('/api/sheet-data');
-      const json = await res.json();
-      setItems(json.data);
-    };
-
-    fetchData();
-
-    const interval = setInterval(fetchData, 30000);
-    return () => clearInterval(interval);
-  }, [setItems]);
-
   if (!type_page && !page && !role) {
     return (
-      <div className="flex flex-col items-center gap-3 py-20">
-        <p>Selamat Datang Di Prototipe ASKREDAG PT ASKRINDO</p>
-        <p>Pilih Menu Di Sebelah Kiri</p>
+      <div className="flex flex-col items-center gap-3 p-10 lg:py-10 lg:px-0">
+        <div className="text-center">Selamat Datang Di Prototipe ASKREDAG PT ASKRINDO</div>
+        <div className="text-center">Pilih Menu Di Sebelah Kiri</div>
       </div>
     )
   }

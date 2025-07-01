@@ -53,9 +53,7 @@ function DataNavMainMap(DataCMSDashboard: CMSItem[]) {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { data: session } = useSession();
 
-  const {
-    items,
-  } = useCMSStore((state) => state)
+  const items = useCMSStore((state) => state.items)
 
   const navMainCms = React.useMemo(
     () => DataNavMainMap(items),

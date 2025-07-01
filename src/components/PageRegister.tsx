@@ -46,10 +46,10 @@ const PageRegister: React.FC<PageRegisterProps> = ({
       <CardContent>
         <div className="space-y-4">
           {fields.map((field, index) => (
-            <div key={index} className="grid grid-cols-4 space-x-4 items-center">
+            <div key={index} className="grid grid-cols-4 space-x-4 space-y-2 items-center">
               <Label htmlFor={`field-${index}`}>{field.header}</Label>
               <Input
-                className="col-span-2"
+                className="col-span-4 lg:col-span-2"
                 id={`field-${index}`}
                 type="text"
                 placeholder={`Masukkan ${field.header.toLowerCase()}`}
