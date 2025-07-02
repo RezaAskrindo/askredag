@@ -55,7 +55,6 @@ export function DataTableGeneral({
     state: {
       pagination,
     },
-    getRowId: (row) => row.id.toString(),
     enableRowSelection: true,
     onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),

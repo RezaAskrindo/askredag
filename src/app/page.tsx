@@ -1,8 +1,7 @@
-import Link from "next/link";
-
 import { signIn, auth } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { ChevronRight } from "lucide-react";
+
+import LoadContentCMS from "@/components/load-content-cms";
 
 export default async function Home() {
   const session = await auth()
@@ -32,12 +31,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col items-center gap-3 p-10 lg:py-10 lg:px-0">
       <p className="text-center">Selamat Datang { session.user.name }  Di Prototipe Askredag</p>
-      <Button variant="outline" asChild>
-        <Link href="/login">
-          <ChevronRight className="w-4 h-4" />
-          Lanjut Ke Prototipe
-        </Link>
-      </Button>
+      <LoadContentCMS />
     </div>
   );
 }

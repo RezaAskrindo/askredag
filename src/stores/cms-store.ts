@@ -6,10 +6,21 @@ export type CMSItem = {
   page: string;
   label: string;
   field_type: string;
+  required_field?: string;
   faker_type?: string;
   faker_helper?: string;
   group_form?: string;
   options?: string;
+  description?: string;
+}
+
+export type TField = {
+  group_form: string
+  label: string
+  field_type: string
+  required_field: string
+  options: string[] | null
+  description?: string
 }
 
 export type CMSState = {
