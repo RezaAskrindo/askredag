@@ -1,9 +1,20 @@
 
-import { CMSItem } from "@/stores/cms-store";
-import { DataTableGeneral } from "./data-table-general"
 import { useEffect, useMemo, useState } from "react";
 import { ColumnDef } from "@tanstack/react-table";
+import { CMSItem } from "@/stores/cms-store";
 import { toCamelCase } from "@/lib/convertCamelCase";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import { DataTableGeneral } from "./data-table-general"
+import { Button } from "./ui/button";
+import { MoreHorizontal } from "lucide-react";
 
 type PageDashboardProps = {
   items: CMSItem[];
@@ -33,12 +44,38 @@ const PageDashboard: React.FC<PageDashboardProps> = ({
       return [];
     }
 
-    const result = items
+    const result: ColumnDef<CMSItem>[] = items
       .filter((item) => item.type_page === type_page && item.page === page && item.role === role)
       .map((item) => ({
         header: item.label,
         accessorKey: toCamelCase(item.label),
       }));
+
+    result.push(
+      {
+        id: "actions",
+        enableHiding: false,
+        cell: () => {
+          return (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem>Action 1</DropdownMenuItem>
+                <DropdownMenuItem>Action 2</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Action 3</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )
+        },
+      }
+    )
 
     return result;
   }, [items, type_page, page, role]);

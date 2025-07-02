@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { CMSItem, TField } from "@/stores/cms-store";
 
 import PageRegisterInput from "./PageRegisterInput";
+import { toast } from "sonner";
 
 type PageRegisterProps = {
   items: CMSItem[];
@@ -61,8 +62,6 @@ const PageRegister: React.FC<PageRegisterProps> = ({
     }));
   }, [fields]);
 
-  console.log(groupFormFields);
-
   return groupFormFields.map((field, index) => (
     <Card key={`${field.group}-${index}`} className="w-full">
       <CardHeader>
@@ -78,7 +77,7 @@ const PageRegister: React.FC<PageRegisterProps> = ({
       </CardContent>
       <CardFooter>
         <CardAction className="w-full">
-          <Button type="submit">Submit { page }</Button>
+          <Button onClick={() => toast.success(`Data ${field.group} Berhasil Di Simpan`)}>Submit { page }</Button>
         </CardAction>
       </CardFooter>
     </Card>

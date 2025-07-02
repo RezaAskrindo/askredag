@@ -3,6 +3,7 @@
 import { useCMSStore } from "@/stores/cms-store-provider"
 import { useSearchParams } from "next/navigation"
 import { useSWRCMSData } from "@/stores/useSWRCMSData"
+import { Toaster } from "@/components/ui/sonner"
 
 import PageDashboard from "./PageDashboard"
 import PageRegister from "./PageRegister"
@@ -45,6 +46,7 @@ const PagePrototype: React.FC = () => {
           type_page={type_page}
           page={page || ''}
         />
+        <Toaster />
       </div>
     )
   } else {

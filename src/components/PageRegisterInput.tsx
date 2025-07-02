@@ -38,7 +38,7 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
   let fieldRender = <Input
     className="col-span-4 lg:col-span-2"
     id={idField}
-    type="text"
+    type={item.field_type}
     placeholder={item.label}
   />
 
@@ -87,9 +87,7 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
           aria-expanded={open}
           className="min-w-full justify-between"
         >
-          {value
-            ? item.options?.find((option) => option === option)
-            : item.label}
+          {value ?? item.label}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
