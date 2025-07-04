@@ -1,17 +1,18 @@
 import { createStore } from 'zustand/vanilla'
 
 export type CMSItem = {
-  role: string;
-  type_page: string;
-  page: string;
-  label: string;
-  field_type: string;
-  required_field?: string;
-  faker_type?: string;
-  faker_helper?: string;
-  group_form?: string;
-  options?: string;
-  description?: string;
+  role: string
+  type_page: string
+  page: string
+  label: string
+  field_type: string
+  required_field?: string
+  faker_type?: string
+  faker_helper?: string
+  group_form?: string
+  options?: string
+  description?: string
+  is_dynamic?: string
 }
 
 export type TField = {
@@ -21,6 +22,7 @@ export type TField = {
   required_field: string
   options: string[] | null
   description?: string
+  is_dynamic?: string
 }
 
 export type CMSState = {

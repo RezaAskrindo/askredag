@@ -27,7 +27,7 @@ export async function GET() {
 
     const registerRes = await sheets.spreadsheets.values.get({
       spreadsheetId: sheetId,
-      range: 'CMS-P-R!A:I',
+      range: 'CMS-P-R!A:J',
     });
 
     const values = [

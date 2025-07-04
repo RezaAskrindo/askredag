@@ -11,16 +11,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Command, CommandInput, CommandList, CommandItem, CommandGroup, CommandEmpty } from "@/components/ui/command";
-import {
-  Alert,
-  AlertDescription,
-  AlertTitle,
-} from "@/components/ui/alert"
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 
 import { type TField } from "@/stores/cms-store";
 import { cn } from "@/lib/utils";
 import { Textarea } from "./ui/textarea";
 import ReactNumberFormat from "./form-react-number-format";
+import CheckDuplicateInput from "./CheckDuplicateInput";
 
 interface PageRegisterInputProps {
   item: TField;
@@ -36,7 +33,7 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
   const [value, setValue] = useState<string | undefined>(undefined);
 
   let fieldRender = <Input
-    className="col-span-4 lg:col-span-2"
+    className="w-full"
     id={idField}
     type={item.field_type}
     placeholder={item.label}
@@ -139,20 +136,25 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
 
   return (
     <>
-    <div className="grid grid-cols-4 space-x-4 space-y-2 items-center">
-      <Label htmlFor={idField}>
-        {item.label}
-        {item.required_field === 'mandatory' && <span className="text-red-700">*</span>}
-      </Label>
+      <div className="grid grid-cols-1 lg:grid-cols-4 space-x-4 space-y-1.5 items-center">
+        <Label htmlFor={idField}>
+          {item.label}
+          {item.required_field === 'mandatory' && <span className="text-red-700">*</span>}
+        </Label>
 
-      { fieldRender }
-    </div>
+        <div className="lg:col-span-2">
+          { fieldRender }
+        </div>
+      </div>
+
       { item?.description ? <Alert>
         <AlertTitle>Keterangan: { item.label }</AlertTitle>
         <AlertDescription>
           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(item.description).toString()) }}></div>
         </AlertDescription>
       </Alert> : null }
+
+      <CheckDuplicateInput field={item} />
     </>
   )
 }

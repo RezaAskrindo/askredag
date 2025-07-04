@@ -14,6 +14,7 @@ import { CMSItem, TField } from "@/stores/cms-store";
 
 import PageRegisterInput from "./PageRegisterInput";
 import { toast } from "sonner";
+import { GalleryVerticalEnd, Save } from "lucide-react";
 
 type PageRegisterProps = {
   items: CMSItem[];
@@ -38,6 +39,7 @@ const PageRegister: React.FC<PageRegisterProps> = ({
         required_field: item.required_field ?? "",
         options: item.options?.split(",") || null,
         description: item.description,
+        is_dynamic: item.is_dynamic,
       }));
 
     return result;
@@ -65,7 +67,18 @@ const PageRegister: React.FC<PageRegisterProps> = ({
   return groupFormFields.map((field, index) => (
     <Card key={`${field.group}-${index}`} className="w-full">
       <CardHeader>
-        <CardTitle>{ field.group }</CardTitle>
+        <CardTitle className="flex flex-row justify-between items-center">
+          <div className="flex items-center gap-2">
+            <GalleryVerticalEnd className="size-5" />
+            { field.group } 
+          </div>
+          <div className="font-bold">
+            { field.fields?.[0]?.is_dynamic === "TRUE" ? 
+              "MULTIPLE FORM"
+              : null 
+            }
+          </div>
+        </CardTitle>
       </CardHeader>
       <Separator />
       <CardContent>
@@ -77,7 +90,10 @@ const PageRegister: React.FC<PageRegisterProps> = ({
       </CardContent>
       <CardFooter>
         <CardAction className="w-full">
-          <Button onClick={() => toast.success(`Data ${field.group} Berhasil Di Simpan`)}>Submit { page }</Button>
+          <Button onClick={() => toast.success(`Data ${field.group} Berhasil Di Simpan`)}>
+            <Save />
+            { field.group }
+          </Button>
         </CardAction>
       </CardFooter>
     </Card>
