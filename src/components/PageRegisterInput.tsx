@@ -134,6 +134,16 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
     />
   }
 
+  if (item.field_type === 'input-disabled') {
+    fieldRender = <Input
+      className="w-full border-foreground bg-gray-300"
+      id={idField}
+      type={item.field_type}
+      placeholder={item.label}
+      disabled
+    />
+  }
+
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-4 space-x-4 space-y-1.5 items-center">
@@ -150,7 +160,7 @@ const PageRegisterInput: React.FC<PageRegisterInputProps> = ({
       { item?.description ? <Alert>
         <AlertTitle>Keterangan: { item.label }</AlertTitle>
         <AlertDescription>
-          <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(item.description).toString()) }}></div>
+          <div className="relative w-full overflow-x-auto" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(marked.parse(item.description).toString()) }}></div>
         </AlertDescription>
       </Alert> : null }
 

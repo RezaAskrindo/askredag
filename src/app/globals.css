@@ -121,3 +121,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+table {
+  font-size: 1rem;
+  text-indent: 0;
+  border-color: inherit;
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+thead, tbody {
+  border-color: var(--border);
+  outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
+}
+
+tr {
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+}
+
+th, td {
+  color: var(--foreground);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  --tw-font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  text-align: left;
+  vertical-align: top;
+  padding-inline: calc(var(--spacing) * 2);
+  height: calc(var(--spacing) * 10);
+}
